@@ -1,0 +1,142 @@
+ch4
+- state mutations have to be "pure"- take previous state, action being dispatched, and returns the new state 
+- doens't modify the state given to it, it makes a new one
+
+ch 5
+- if the reducer returns undefined as the state, it returns what it considers the default state, which you can set in the inputs in the counter = (state =0, action) => .... stuff
+
+ch 6
+- the store has the methods
+	getState()
+	dispatch()
+	subscribe()
+
+ch 9
+-don't forget that you can't use mutating fns like push in the reducer, use ...spread, slice, or concat instead
+
+ch 10
+- object.assign: first part is the mutated thing, every next one is a source that gets copied to the target, the last one wins if name conflicts
+	- use it to create copies of the object so you don't mutate the original
+	- can also use ...origObject spread
+
+ch 11
+- you can send more things, like id or text, over with the action, and copy them into the state with the reducer like:
+	case 'WHATEVER':
+		return [
+		...state,
+		{id:action.id,
+		text: action.text}
+		]
+
+ch 12
+- arrayName.map(fn) applies the fn across each of the elements in the array, for instance, something like {if (action.id==todo.id), return {...todo, completed: !todo.completed};}
+
+ch 14
+- reducer compositions: you can make a reducer for for instance, a single todo, and each reducer can have a state it's working with, then the combine reducer squashes them all together in the end
+- ex: statefield: reducer it calls
+	const {combineReducers} = Redux;
+	const todoApp = conbineReducers({
+		todos : todos,
+		visibility: visibility
+	});
+
+ch 16
+- just a reminder that functions can take functions as inputs and return them as well
+
+ch 17
+- I can pass the props like 
+	<TodoApp todos = {store.getState().todos} />
+- I can catch the props like 
+	<ul> {this.props.todos.map(todo =>
+	<li>{todo.text}</li>)}
+	</ul>
+- get input out of a text box with 
+	<input ref = {node =>{
+		this.input=node;
+	}} />
+- reset input box afterwards with (inside the button onClick)
+	this.input.value = ''; 
+
+ch 18
+- turns out you can add onClick to ul's as well to dispatch things
+- you can use a style tag with textDecoration for things like crossing out todos if the todo.completed filed is somethign in particular
+
+ch 19- started losing it around here
+- you can make a link to do things like filter with 
+	<a href='#'
+		onClick={e=>{
+		e.preventDefault();//don't reload
+		store.dispatch({yourActionFn(), filter});
+		}}
+		{children} </a>
+- and if you want ithe active ones to not be clickable, turn them inso a <span> instead of an a
+
+ch 22
+- you can poll the store from a container component and subscribe there, rather than rerendering the whole app, and in the subscribe, do a fn that calls this.forceUpdate()
+- you can subscribe inside the componentDidMount
+- subscribing returns the undubscribe fn(???), so you can assign the subscribe call to a var, and then call that var on componentWillUnmount (???)
+
+ch 23
+- containers are there to connect a presentation component to the store and spec the behaivior
+
+ch 24
+- you can pass the entire store via props to all the components, especially the containers, so you can subscribe to the changes there if you choose to (instead of up top)
+- you also need to pass it to anything that does dispatch or getState or whatever
+- you have to pass it around as a prop for real applications instead of a top-level var, which only works if it's all in one big file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
